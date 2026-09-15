@@ -126,7 +126,6 @@ def main(args):
         p = Process(target=run_updater, args=(cfg, args, case_name))
         processes.append(p)
         p.start()
-        break  #ERASE
     for p in processes:
         p.join()
 
