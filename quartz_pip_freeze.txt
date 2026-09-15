@@ -1,0 +1,33 @@
+cycler==0.11.0
+Cython==0.29.36
+easydict==1.13
+fonttools==4.38.0
+imageio==2.9.0
+importlib-metadata==6.7.0
+kiwisolver==1.4.5
+-e git+https://github.com/facebookresearch/maskrcnn-benchmark.git@192261db14d596da52905e91dc608bd4315552dc#egg=maskrcnn_benchmark
+matplotlib==3.5.3
+networkx==2.6.3
+ninja==1.11.1.1
+numpy @ file:///home/conda/feedstock_root/build_artifacts/numpy_1649806299270/work
+opencv-python-headless==4.8.1.78
+packaging==24.0
+Pillow==6.2.2
+protobuf==4.24.4
+pybullet @ file:///home/conda/feedstock_root/build_artifacts/bullet_1658431883883/work
+pycocotools==2.0.7
+pyparsing==3.1.4
+python-dateutil==2.9.0.post0
+PyWavelets==1.3.0
+PyYAML==6.0.1
+scikit-image==0.19.3
+scipy==1.7.3
+six==1.17.0
+tensorboardX==2.6.2.2
+tifffile==2021.11.2
+torch @ https://download.pytorch.org/whl/cu100/torch-1.1.0-cp37-cp37m-linux_x86_64.whl#sha256=e8b793e9a9e28d7cee357f59cd7486cd85426c86e3821e8bb16c8f823a120d70
+torchvision==0.2.1
+tqdm==4.68.2
+typing_extensions==4.7.1
+yacs==0.1.8
+zipp==3.15.0

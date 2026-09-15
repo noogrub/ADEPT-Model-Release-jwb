@@ -1,7 +1,8 @@
 import os
 import random
 
-CONTENT_FOLDER = "/root/adept-model/"
+#CONTENT_FOLDER = "/root/adept-model/"
+CONTENT_FOLDER = "/N/slate/jburgoon/ADEPT-Model-Release"
 
 WIDTH = 480
 HEIGHT = 320
