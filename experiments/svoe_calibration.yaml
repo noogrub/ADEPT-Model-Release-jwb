@@ -1,0 +1,18 @@
+reference_results:
+  - output/default_physics/results/human_block_0051_0.json
+  - output/default_physics/results/human_disappear_0007_3.json
+
+target_results:
+  - output/default_physics/results/human_block_0051_0.json
+  - output/default_physics/results/human_disappear_0007_3.json
+
+score_field: all
+output_folder: output/svoe_calibration
+
+plot:
+  input_json: output/svoe_calibration/svoe_calibration.json
+  output_folder: output/svoe_calibration/figures
+  dpi: 200
+  figure_width: 8.0
+  figure_height: 5.0
+  line_width: 0.5
