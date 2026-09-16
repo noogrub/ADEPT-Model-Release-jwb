@@ -1,0 +1,16 @@
+physics_config: experiments/default_physics.yaml
+
+case_names:
+  - human_block_0051_0
+  - human_disappear_0007_3
+
+particle_counts:
+  - 1
+
+replicates: 5
+output_root: output/svoe_single_particle
+overwrite_existing: false
+
+execution:
+  direct_single_particle: true
+
