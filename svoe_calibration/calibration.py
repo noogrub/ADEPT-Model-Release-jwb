@@ -17,8 +17,8 @@ def prepare_reference(scores):
     return reference
 
 
-def calibrate_score(score, reference):
-    """Convert one score to empirical tail probability and SVoE bits."""
+def calibrate_value(score, reference):
+    """Return the tail count, tail probability, and SVoE bits."""
     score = float(score)
 
     if not isfinite(score):
@@ -30,6 +30,18 @@ def calibrate_score(score, reference):
 
     tail_probability = (tail_count + 1) / (n_reference + 1)
     svoe_bits = -log2(tail_probability)
+
+    return tail_count, tail_probability, svoe_bits
+
+
+def calibrate_score(score, reference):
+    """Convert one score to a complete calibration record."""
+    score = float(score)
+
+    tail_count, tail_probability, svoe_bits = calibrate_value(
+        score,
+        reference,
+    )
 
     return {
         "score": score,

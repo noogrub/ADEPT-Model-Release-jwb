@@ -4,6 +4,7 @@ from svoe_calibration.calibration import (
     calibrate_score,
     calibrate_scores,
     prepare_reference,
+    calibrate_value,
 )
 
 
@@ -37,6 +38,17 @@ class CalibrationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             prepare_reference([])
 
+    def test_calculation_only_values(self):
+        reference = prepare_reference([1.0, 2.0, 3.0])
+
+        tail_count, tail_probability, svoe_bits = calibrate_value(
+            4.0,
+            reference,
+        )
+
+        self.assertEqual(tail_count, 0)
+        self.assertEqual(tail_probability, 0.25)
+        self.assertEqual(svoe_bits, 2.0)
 
 if __name__ == "__main__":
     unittest.main()

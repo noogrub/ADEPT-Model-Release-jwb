@@ -16,3 +16,9 @@ plot:
   figure_width: 8.0
   figure_height: 5.0
   line_width: 0.5
+
+benchmark:
+  warmup_passes: 20
+  iterations_per_repeat: 1000
+  repeats: 7
+  output_json: output/svoe_calibration/svoe_benchmark.json
