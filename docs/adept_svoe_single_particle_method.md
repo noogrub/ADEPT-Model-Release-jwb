@@ -120,10 +120,17 @@ control-versus-violation separation.
 
 ## Later comparison
 
-If the one-particle results are stable enough to justify continuation, the
-configuration can be extended to particle counts of 2, 4, 8, 16, 32, 64, and
-128. Every particle-count variant must be calibrated against control residuals
-produced by that same variant.
+The single-particle results were not stable enough to replace the released
+filter. Subsequent exploratory runs examined particle counts of 16, 24, 28,
+30, 32, 48, and 128. Every particle-count variant is calibrated against control
+scores produced by that same variant.
+
+The reusable analysis procedure and its statistical definitions are documented
+in:
+
+```text
+docs/adept_svoe_particle_analysis.md
+```
 
 The final comparison should report:
 

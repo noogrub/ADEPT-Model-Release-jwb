@@ -1,0 +1,27 @@
+repository_root: .
+score_field: all
+
+manifests:
+  - output/svoe_single_particle/manifest.json
+  - output/svoe_particles_016/manifest.json
+  - output/svoe_particles_024/manifest.json
+  - output/svoe_particles_028/manifest.json
+  - output/svoe_particles_030/manifest.json
+  - output/svoe_particles_032/manifest.json
+  - output/svoe_particles_048/manifest.json
+  - output/svoe_particles_128/manifest.json
+
+reference_case_names:
+  - human_block_0051_0
+  - human_disappear_0007_3
+
+baseline_particle_count: 128
+top_frames_per_run: 5
+output_folder: output/svoe_particle_analysis
+
+plot:
+  figure_width: 16
+  figure_height: 8
+  dpi: 150
+  line_width: 0.8
+  band_alpha: 0.16

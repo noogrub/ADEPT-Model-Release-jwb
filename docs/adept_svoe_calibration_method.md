@@ -154,14 +154,15 @@ output/svoe_calibration/figures/
 
 ## Validation
 
-Four unit tests verify:
+Five unit tests verify:
 
 - add-one behavior above the reference maximum;
 - inclusive treatment of tied scores;
 - monotonic increase of SVoE with the source score;
-- rejection of an empty reference set.
+- rejection of an empty reference set;
+- the calculation-only tuple returned by `calibrate_value`.
 
-All four tests passed under Python 3.7.12.
+All five tests passed under Python 3.7.12.
 
 ## Current limitations
 
