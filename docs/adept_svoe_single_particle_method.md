@@ -107,6 +107,17 @@ apptainer exec --cleanenv \
 The physical-reasoning stage is CPU-based; this command does not request NVIDIA
 GPU passthrough.
 
+### Resuming an interrupted experiment
+
+With `overwrite_existing: false`, rerunning the same command validates and
+skips each case that already has both `result.json` and `timing.json`. Cases
+without final output are run normally. After all cases are available, the
+runner writes a complete `manifest.json` containing both reused and newly
+completed runs.
+
+If only one of the two files exists, the runner stops and reports an incomplete
+output pair rather than silently accepting or overwriting ambiguous data.
+
 ## Initial evaluation
 
 The first run answers two limited questions:

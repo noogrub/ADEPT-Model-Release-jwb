@@ -87,6 +87,82 @@ def run_directory(output_root, particle_count, replicate, case_name):
     )
 
 
+def completed_run(experiment, particle_count, replicate, case_name):
+    """Return validated metadata for a completed run, or None."""
+    output_directory = run_directory(
+        experiment["output_root"],
+        particle_count,
+        replicate,
+        case_name,
+    )
+    result_path = os.path.join(output_directory, "result.json")
+    timing_path = os.path.join(output_directory, "timing.json")
+    result_exists = os.path.exists(result_path)
+    timing_exists = os.path.exists(timing_path)
+
+    if not result_exists and not timing_exists:
+        return None
+
+    if result_exists != timing_exists:
+        raise RuntimeError(
+            "incomplete run output: expected both {} and {}".format(
+                result_path,
+                timing_path,
+            )
+        )
+
+    with open(result_path) as stream:
+        result_document = json.load(stream)
+
+    if case_name not in result_document:
+        raise ValueError(
+            "completed result is missing case {!r}: {}".format(
+                case_name,
+                result_path,
+            )
+        )
+
+    scores = result_document[case_name].get("all")
+
+    if not isinstance(scores, list):
+        raise ValueError(
+            "completed result is missing frame scores: {}".format(
+                result_path,
+            )
+        )
+
+    with open(timing_path) as stream:
+        timing = json.load(stream)
+
+    expected = {
+        "case_name": case_name,
+        "particle_count": particle_count,
+        "replicate": replicate,
+        "frame_count": len(scores),
+    }
+
+    for key, value in expected.items():
+        if timing.get(key) != value:
+            raise ValueError(
+                "completed timing metadata mismatch for {} in {}".format(
+                    key,
+                    timing_path,
+                )
+            )
+
+    return {
+        "case_name": case_name,
+        "particle_count": particle_count,
+        "replicate": replicate,
+        "execution_mode": timing["execution_mode"],
+        "frame_count": timing["frame_count"],
+        "elapsed_seconds": timing["elapsed_seconds"],
+        "seconds_per_frame": timing["seconds_per_frame"],
+        "result_path": result_path,
+        "timing_path": timing_path,
+    }
+
+
 def build_physics_config(base_config_path, particle_count, case_name):
     from tools.physics_defaults import _C as default_config
 
@@ -236,6 +312,25 @@ def main():
     for particle_count in experiment["particle_counts"]:
         for replicate in range(1, experiment["replicates"] + 1):
             for case_name in experiment["case_names"]:
+                if not experiment["overwrite_existing"]:
+                    previous = completed_run(
+                        experiment,
+                        particle_count,
+                        replicate,
+                        case_name,
+                    )
+                    if previous is not None:
+                        runs.append(previous)
+                        print(
+                            "skipping completed particles={} replicate={} "
+                            "case={}".format(
+                                particle_count,
+                                replicate,
+                                case_name,
+                            )
+                        )
+                        continue
+
                 print(
                     "running particles={} replicate={} case={}".format(
                         particle_count,

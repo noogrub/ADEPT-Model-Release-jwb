@@ -1,8 +1,11 @@
 import os
+import json
+import tempfile
 import unittest
 
 from svoe_calibration.particle_experiment import (
     DirectExecutionGate,
+    completed_run,
     run_directory,
     validate_experiment_config,
 )
@@ -59,7 +62,69 @@ class ParticleExperimentTests(unittest.TestCase):
 
         self.assertFalse(gate.acquire(False))
 
+    def test_completed_run_returns_validated_metadata(self):
+        with tempfile.TemporaryDirectory() as output_root:
+            config = self.base_config()
+            config["output_root"] = output_root
+            output_directory = run_directory(
+                output_root,
+                particle_count=1,
+                replicate=1,
+                case_name="case_a",
+            )
+            os.makedirs(output_directory)
+
+            result_path = os.path.join(output_directory, "result.json")
+            timing_path = os.path.join(output_directory, "timing.json")
+
+            with open(result_path, "w") as stream:
+                json.dump({"case_a": {"all": [0.1, 0.2]}}, stream)
+
+            with open(timing_path, "w") as stream:
+                json.dump(
+                    {
+                        "case_name": "case_a",
+                        "particle_count": 1,
+                        "replicate": 1,
+                        "execution_mode": "direct",
+                        "frame_count": 2,
+                        "elapsed_seconds": 4.0,
+                        "seconds_per_frame": 2.0,
+                    },
+                    stream,
+                )
+
+            run = completed_run(config, 1, 1, "case_a")
+
+            self.assertEqual(run["frame_count"], 2)
+            self.assertEqual(run["elapsed_seconds"], 4.0)
+            self.assertEqual(run["result_path"], result_path)
+
+    def test_completed_run_returns_none_when_output_is_absent(self):
+        with tempfile.TemporaryDirectory() as output_root:
+            config = self.base_config()
+            config["output_root"] = output_root
+
+            self.assertIsNone(completed_run(config, 1, 1, "case_a"))
+
+    def test_completed_run_rejects_incomplete_output_pair(self):
+        with tempfile.TemporaryDirectory() as output_root:
+            config = self.base_config()
+            config["output_root"] = output_root
+            output_directory = run_directory(
+                output_root,
+                particle_count=1,
+                replicate=1,
+                case_name="case_a",
+            )
+            os.makedirs(output_directory)
+
+            with open(os.path.join(output_directory, "result.json"), "w") as stream:
+                json.dump({"case_a": {"all": [0.1]}}, stream)
+
+            with self.assertRaises(RuntimeError):
+                completed_run(config, 1, 1, "case_a")
+
 
 if __name__ == "__main__":
     unittest.main()
-
