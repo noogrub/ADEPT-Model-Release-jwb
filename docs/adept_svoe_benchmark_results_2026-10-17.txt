@@ -1,0 +1,83 @@
+[jburgoon@h2 ADEPT-Model-Release]$ srun --partition=interactive --account=r01469   --time=00:30:00 --cpus-per-task=1 --mem=4G   --pty bash
+[jburgoon@c3 ADEPT-Model-Release]$ module load apptainer/1.3.6
+[jburgoon@c3 ADEPT-Model-Release]$ 
+[jburgoon@c3 ADEPT-Model-Release]$ apptainer exec --cleanenv \
+>   --bind /N/slate/jburgoon:/N/slate/jburgoon \
+>   --bind /N/slate/jburgoon/ADEPT-Model-Release:/root/adept-model \
+>   --pwd /root/adept-model \
+>   --env OPENBLAS_NUM_THREADS=1,OMP_NUM_THREADS=1 \
+>   /N/slate/jburgoon/containers/ADEPT/cuda10-cudnn7-devel-ubuntu16.04.sif \
+>   /N/u/jburgoon/Quartz/.conda/envs/adept-model/bin/python \
+>   -m svoe_calibration.surprisal_benchmark \
+>   --config experiments/svoe_surprisal_benchmark.yaml
+INFO:    gocryptfs not found, will not be able to use gocryptfs
+host: c3.quartz.uits.iu.edu
+Python: 3.7.12
+NumPy: 1.21.6
+frames per pass: 340
+particle counts: [128]
+adept_released_surprisal:
+  microseconds per frame: 126.83990039992804
+  peak incremental bytes: 856
+  timing CV percent: 1.8922211817789099
+adept_vectorized_surprisal:
+  microseconds per frame: 16.69473370318027
+  peak incremental bytes: 5160
+  timing CV percent: 0.35917178696665425
+svoe_particle_surprisal:
+  microseconds per frame: 77.73770772927331
+  peak incremental bytes: 716
+  timing CV percent: 0.8290080501290678
+released ADEPT / vectorized ADEPT time ratio: 7.597599497844379
+vectorized ADEPT / SVoE time ratio: 0.21475721616748436
+released ADEPT / SVoE time ratio: 1.631639317712536
+maximum ADEPT absolute difference: 8.881784197001252e-16
+JSON: output/svoe_calibration/svoe_surprisal_optimization_benchmark.json
+[jburgoon@c3 ADEPT-Model-Release]$ exit
+exit
+************************************
+
+[jburgoon@h2 ADEPT-Model-Release]$ srun --partition=interactive --account=r01469   --time=00:30:00 --cpus-per-task=1 --mem=4G   --pty bash
+[jburgoon@c4 ADEPT-Model-Release]$ module load apptainer/1.3.6
+[jburgoon@c4 ADEPT-Model-Release]$ 
+[jburgoon@c4 ADEPT-Model-Release]$ apptainer exec --cleanenv \
+>   --bind /N/slate/jburgoon:/N/slate/jburgoon \
+>   --bind /N/slate/jburgoon/ADEPT-Model-Release:/root/adept-model \
+>   --pwd /root/adept-model \
+>   --env OPENBLAS_NUM_THREADS=1,OMP_NUM_THREADS=1 \
+>   /N/slate/jburgoon/containers/ADEPT/cuda10-cudnn7-devel-ubuntu16.04.sif \
+>   /N/u/jburgoon/Quartz/.conda/envs/adept-model/bin/python \
+>   -m svoe_calibration.surprisal_benchmark \
+>   --config experiments/svoe_surprisal_benchmark.yaml
+
+host: c4.quartz.uits.iu.edu
+Python: 3.7.12
+NumPy: 1.21.6
+frames per pass: 340
+particle counts: [128]
+adept_released_surprisal:
+  microseconds per frame: 123.31449628211831
+  peak incremental bytes: 856
+  timing CV percent: 0.2791144716415564
+adept_vectorized_surprisal:
+  microseconds per frame: 15.883853685398421
+  peak incremental bytes: 5160
+  timing CV percent: 0.23810511410306096
+svoe_scalar_surprisal:
+  microseconds per frame: 81.84087109094595
+  peak incremental bytes: 716
+  timing CV percent: 0.5160239051691184
+svoe_vectorized_surprisal:
+  microseconds per frame: 23.943056694149753
+  peak incremental bytes: 7968
+  timing CV percent: 0.33633072119153573
+released ADEPT / vectorized ADEPT time ratio: 7.763512477798625
+vectorized ADEPT / scalar SVoE time ratio: 0.19408216791519037
+released ADEPT / scalar SVoE time ratio: 1.5067593323277884
+scalar SVoE / vectorized SVoE time ratio: 3.4181463184248715
+vectorized ADEPT / vectorized SVoE time ratio: 0.6634012477312257
+released ADEPT / vectorized SVoE time ratio: 5.150323864548547
+maximum ADEPT absolute difference: 8.881784197001252e-16
+maximum SVoE absolute difference (bits): 1.3322676295501878e-15
+JSON: output/svoe_calibration/svoe_dual_optimization_benchmark.json
+

@@ -1,0 +1,16 @@
+reference_results:
+  - output/default_physics/results/human_block_0051_0.json
+  - output/default_physics/results/human_disappear_0007_3.json
+
+target_results:
+  - output/default_physics/results/human_block_0051_0.json
+  - output/default_physics/results/human_disappear_0007_3.json
+
+score_field: all
+raw_score_field: raw
+
+benchmark:
+  warmup_passes: 20
+  iterations_per_repeat: 1000
+  repeats: 7
+  output_json: output/svoe_calibration/svoe_dual_optimization_benchmark.json
